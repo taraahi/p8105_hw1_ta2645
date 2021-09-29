@@ -5,7 +5,7 @@ date: September 2021
 output: github_document
 ---
 
-# Problem 1
+## Problem 1
 
 Below is a code chunk that creates a data frame compromised of a random sample of size 10 from a standard normal distribution. It includes:
 
@@ -18,6 +18,8 @@ Below is a code chunk that creates a data frame compromised of a random sample o
 
 library(tidyverse)
 
+set.seed(10)
+
 problem1_df = tibble(
   samp = rnorm(10),
   vec_logical = samp > 0,
@@ -28,7 +30,7 @@ problem1_df = tibble(
 problem1_df
 ```
 
-Next we will pull the individual variables from the data frame to take the mean.
+Next we will use `pull` on the individual variables to take the mean.
 
 ```{r mean_experiment, eval=FALSE}
 mean(pull(problem1_df, samp))
@@ -37,9 +39,9 @@ mean(pull(problem1_df, vec_char))
 mean(pull(problem1_df, vec_factor))
 ```
 
-The mean of the sample is `r mean(pull(problem1_df, samp))`.
-The mean of vec_logical is `r mean(pull(problem1_df, vec_logical))`.
-We cannot take the mean of the character or factor variables because they are compromised of characters, not numbers.
+The _mean_ of the sample is `r mean(pull(problem1_df, samp))`.
+The _mean_ of the logical variable is `r mean(pull(problem1_df, vec_logical))`.
+We cannot take the mean of the character or factor variables because they are compromised of _characters_, not numbers.
 
 ```{r numeric_experiment, eval=FALSE}
 as.numeric(pull(problem1_df, vec_logical))
@@ -47,4 +49,36 @@ as.numeric(pull(problem1_df, vec_char))
 as.numeric(pull(problem1_df, vec_factor))
 ```
 
-The logical and factor variables are converted to numbers (1/0 and 1/2/3, respectively). This is because they have distinct levels that can be assigned numeric values. The character variables is returned as NA as the values cannot be categorized, which is also why we couldn't take the mean.
+The logical and factor variables are converted to numbers _(1/0 and 1/2/3, respectively)_. This is because they have distinct levels that can be assigned numeric values. The character variables is returned as NA as the values cannot be categorized, which is also why we couldn't take the mean.
+
+
+## Problem 2
+
+The palmerpenguins package has been installed in the console. 
+
+Load the penguins dataset:
+```{r load_penguins}
+data("penguins", package = "palmerpenguins")
+```
+
+The dataset is compromised of variables bill length (in mm), bill depth (in mm), flipper length in mm), body mass (in grams), and year. 
+
+There are **344 rows** and **8 columns**.
+
+The mean flipper length is **201 mm**. 
+
+### Data summary:
+
+Here we can use `skim`
+```{r}
+skimr::skim(penguins)
+```
+
+### Scatterplot
+
+Below is a scatterplot of the Flipper Length _vs_ Bill Length. 
+
+```{r scatterplot, warning=FALSE}
+ggplot(penguins, aes(y = flipper_length_mm, x = bill_length_mm, color = species)) + geom_point()
+```
+
