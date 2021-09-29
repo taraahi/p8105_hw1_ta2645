@@ -14,7 +14,7 @@ Below is a code chunk that creates a data frame compromised of a random sample o
 * a character vector of length 10
 * a factor vector of length 10, with 3 different factor “levels”
 
-```{r problem_1, collapse=TRUE}
+```{r problem_1}
 
 library(tidyverse)
 
@@ -80,5 +80,10 @@ Below is a scatterplot of the Flipper Length _vs_ Bill Length.
 
 ```{r scatterplot, warning=FALSE}
 ggplot(penguins, aes(y = flipper_length_mm, x = bill_length_mm, color = species)) + geom_point()
+```
+
+Finally, the scatterplot is exported to the projet directory.
+```{r, warning=FALSE}
+ggsave("p8105_HW1_scatterplot.pdf")
 ```
 
