@@ -1,24 +1,50 @@
 ---
 title: "P8105 HW1"
 author: Tara Ahi
-
 date: September 2021
 output: github_document
 ---
 
-I'm an R Markdown document! 
+# Problem 1
 
-# Section 1
+Below is a code chunk that creates a data frame compromised of a random sample of size 10 from a standard normal distribution. It includes:
 
-Here's a **code chunk** that samples from 
-a _normal distribution_:
+* a random sample of size 10 from a standard Normal distribution
+* a logical vector indicating whether elements of the sample are greater than 0
+* a character vector of length 10
+* a factor vector of length 10, with 3 different factor “levels”
 
-```{r}
-samp = rnorm(100)
-length(samp)
+```{r problem_1, collapse=TRUE}
+
+library(tidyverse)
+
+problem1_df = tibble(
+  samp = rnorm(10),
+  vec_logical = samp > 0,
+  vec_char = c("My", "name", "is", "Tara", "and", "I", "am", "learning", "data",                "science"),
+  vec_factor = factor(c("true", "maybe", "false", "true", "maybe", "false",                    "true", "maybe", "false", "true"))
+)
+
+problem1_df
 ```
 
-# Section 2
+Next we will pull the individual variables from the data frame to take the mean.
 
-I can take the mean of the sample, too!
-The mean is `r mean(samp)`.
+```{r mean_experiment, eval=FALSE}
+mean(pull(problem1_df, samp))
+mean(pull(problem1_df, vec_logical))
+mean(pull(problem1_df, vec_char))
+mean(pull(problem1_df, vec_factor))
+```
+
+The mean of the sample is `r mean(pull(problem1_df, samp))`.
+The mean of vec_logical is `r mean(pull(problem1_df, vec_logical))`.
+We cannot take the mean of the character or factor variables because they are compromised of characters, not numbers.
+
+```{r numeric_experiment, eval=FALSE}
+as.numeric(pull(problem1_df, vec_logical))
+as.numeric(pull(problem1_df, vec_char))
+as.numeric(pull(problem1_df, vec_factor))
+```
+
+The logical and factor variables are converted to numbers (1/0 and 1/2/3, respectively). This is because they have distinct levels that can be assigned numeric values. The character variables is returned as NA as the values cannot be categorized, which is also why we couldn't take the mean.
